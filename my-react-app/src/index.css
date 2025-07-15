@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  CRITICAL GLOBAL STYLES:
+  Ensure html, body, and the #root div (where your React app mounts)
+  take up 100% of the viewport height and have no default margins/padding.
+  This is essential for your 'min-h-screen' and other height-based
+  Tailwind classes to work correctly within your App.jsx.
+*/
+html,
+body,
+#root {
+  height: 100%;       /* Make them take the full height of the viewport */
+  margin: 0;          /* Remove default browser margins */
+  padding: 0;         /* Remove default browser padding */
+  overflow: hidden;   /* Prevent scrollbars from appearing if content overflows */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  /*
+    Set the global background color here.
+    This ensures the entire page has the desired background, not just your App component.
+    #bfdbfe is the hex code for Tailwind's blue-200.
+  */
+  background-color: #bfdbfe;
+}
+
+/*
+  BODY SPECIFIC STYLES:
+  These are often included by default in various React project setups.
+  Ensure they don't conflict with the global layout above.
+*/
+body {
+  /*
+    Explicitly set 'display: block;' if your project setup (e.g., Vite)
+    adds 'display: flex;' or 'place-items: center;' to the body by default.
+    This can prevent your app from expanding to full height.
+  */
+  display: block;
+  min-width: unset; /* Remove any minimum width constraint that might be set */
+
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  /*
+    If your default project setup had a dark background here (like #242424),
+    it's now overridden by the 'background-color' on html, body, #root above.
+    You can remove or comment out any conflicting background here.
+  */
+  /* background-color: #242424; */
+}
+
+/*
+  ROOT ELEMENT STYLES (for light/dark mode preference):
+  These often define global text colors and font synthesis.
+  Ensure 'background-color' here doesn't conflict with your desired global background.
+*/
+:root {
+  color-scheme: light dark; /* Allows browser to pick light/dark UI based on user preference */
+  color: rgba(255, 255, 255, 0.87); /* Default text color */
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* If there's a background-color here that makes the page black in default mode,
+     it's now handled by the html, body, #root rule above. */
+}
+
+/*
+  MEDIA QUERY FOR LIGHT COLOR SCHEME:
+  This block applies styles when the user's system prefers a light color scheme.
+  Ensure background colors here also align with your game's design if you want
+  the blue background to persist in light mode.
+*/
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547; /* Text color for light mode */
+    /*
+      If you want the global blue-200 background even in light mode,
+      you need to set it on html/body again within this media query,
+      as other styles might override it.
+    */
+  }
+  /* Explicitly set background for light mode on body if needed */
+  body {
+      background-color: #bfdbfe; /* Ensures blue-200 persists in light mode */
+  }
+}
+
+/*
+  STANDARD ELEMENT STYLES:
+  These are usually provided by your project's default setup.
+*/
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}

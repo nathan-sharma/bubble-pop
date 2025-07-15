@@ -1,0 +1,171 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-color: #bfdbfe;
+}
+
+.game-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 20px;
+}
+
+h1 {
+  z-index: 10;
+  margin-bottom: 20px;
+}
+
+.score {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 1.5em;
+  color: white;
+  z-index: 10;
+}
+
+/* --- NEW: Timer Style --- */
+.timer {
+  position: absolute;
+  top: 20px;
+  right: 20px; /* Position it on the right side */
+  font-size: 1.5em;
+  font-weight: bold;
+  color: white; /* Or any color you prefer */
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.3); /* Slight background for readability */
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.game-over {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3em;
+  font-weight: bold;
+  color: red;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 100;
+  text-align: center;
+}
+
+.bubbles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.bubble {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.puppy-at-bottom {
+  position: absolute; /* Ensures you can control its position precisely */
+  bottom: 20px; /* Adjust as needed to position it at the bottom */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Adjust for perfect centering */
+  width: 150px; /* Set a size for your image */
+  height: auto; /* Maintain aspect ratio */
+  /* Add display: block if it's inline by default and you want to ensure proper box model */
+  display: block;
+}
+.name-prompt {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  z-index: 20; /* Ensure it's above game elements */
+  color: #333;
+}
+
+.name-prompt input[type="text"] {
+  padding: 10px;
+  margin: 15px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 80%;
+  max-width: 300px;
+  font-size: 16px;
+}
+
+.name-prompt button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+}
+
+.name-prompt button:hover {
+  background-color: #45a049;
+}
+
+.name-prompt button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.leaderboard-section {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  max-height: 250px; /* Limit height */
+  overflow-y: auto; /* Enable scrolling if many scores */
+}
+
+.leaderboard-section h3 {
+  color: #555;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.leaderboard-section ol {
+  list-style-type: decimal;
+  padding-left: 25px; /* Indent numbers */
+  text-align: left;
+}
+
+.leaderboard-section li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 16px;
+  color: #444;
+  display: flex;
+  justify-content: space-between; /* Space out name and score */
+}
+
+.leaderboard-section li:last-child {
+  border-bottom: none;
+}
+@keyframes puppyBounce {
+  0% {
+    transform: translateX(-50%) translateY(0); /* Starting position (bottom) */
+  }
+  100% {
+    transform: translateX(-50%) translateY(-20px); /* Move up 20px */
+  }
+}
