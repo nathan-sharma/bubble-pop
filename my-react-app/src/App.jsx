@@ -233,7 +233,7 @@ const App = () => {
       {/* Conditionally render name prompt or game */}
       {!isNameSubmitted ? (
         <div className="name-prompt" style={{ textAlign: 'center', padding: '20px', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
-          <h2 className = "mb-3">For Aveer and Meher 😃</h2>
+          <h2 className = "mb-3">For Aveer and Meher :D</h2>
           <form onSubmit={handleSubmitName} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
             <input
               type="text"
