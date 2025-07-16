@@ -8,7 +8,7 @@ const App = () => {
   const [gameOver, setGameOver] = useState(false);
   const [timeLeft, setTimeLeft] = useState(240); // Initial time set to 240 seconds
   const [isPaused, setIsPaused] = useState(false); // State to manage pause functionality
-  const [isPuppyJumping, setIsPuppyJumping] = useState(false); // State for puppy jump animation
+  // Removed: const [isPuppyJumping, setIsPuppyJumping] = useState(false); // State for puppy jump animation
 
   // User name states
   const [userName, setUserName] = useState('');
@@ -101,19 +101,14 @@ const App = () => {
     });
   };
 
-  // Handle bubble click event - now only triggers puppy jump
+  // Handle bubble click event - now directly pops the bubble
   const handleClick = (id) => {
     // Do not allow clicks if the game is over or paused
     if (gameOver || isPaused) return;
 
-    // Trigger puppy jump animation
-    setIsPuppyJumping(true);
-    // Reset jump state after a short delay to allow re-triggering
-    setTimeout(() => {
-      setIsPuppyJumping(false);
-    }, 300); // Duration of the jump animation (e.3 seconds)
-
-    // The actual bubble popping will now happen in the collision detection useEffect
+    // Directly remove the clicked bubble and increment the score
+    setBubbles((prevBubbles) => prevBubbles.filter((bubble) => bubble.id !== id));
+    setScore((prevScore) => prevScore + 1);
   };
 
   // --- Timer Logic ---
@@ -189,55 +184,8 @@ const App = () => {
     };
   }, [isNameSubmitted, gameOver, isPaused, currentAudioSrc]); // Added currentAudioSrc dependency
 
-  // --- Puppy Jump Collision Detection Logic ---
-  useEffect(() => {
-    if (!isPuppyJumping || gameOver || isPaused || !gameAreaRef.current) return;
-
-    // Define puppy's approximate dimensions and jump height
-    const puppyWidth = 150; // As defined in style
-    const puppyHeight = 150; // Assuming similar to width for hitbox calculation
-    const jumpHeightPx = 100; // The translateY(-100px) value
-
-    const gameAreaRect = gameAreaRef.current.getBoundingClientRect();
-    const gameAreaWidth = gameAreaRect.width;
-    const gameAreaHeight = gameAreaRect.height;
-
-    // Calculate puppy's horizontal position (center)
-    const puppyCenterX = gameAreaWidth / 2;
-    const puppyMinX = puppyCenterX - (puppyWidth / 2);
-    const puppyMaxX = puppyCenterX + (puppyWidth / 2);
-
-    // Calculate puppy's vertical "jump" range
-    // Puppy's base is at bottom: 0, so its Y relative to game area top is gameAreaHeight - puppyHeight
-    // When jumping, it moves up by jumpHeightPx
-    const puppyJumpTopY = gameAreaHeight - puppyHeight - jumpHeightPx;
-    const puppyJumpBottomY = gameAreaHeight - jumpHeightPx; // This is the base of the puppy when jumping
-
-    setBubbles((prevBubbles) => {
-      const poppedBubbleIds = new Set();
-      const remainingBubbles = prevBubbles.filter((bubble) => {
-        // Check for collision:
-        // Bubble's horizontal range overlaps with puppy's horizontal range
-        const horizontalOverlap = (bubble.x < puppyMaxX && bubble.x + bubble.size > puppyMinX);
-        // Bubble's vertical range overlaps with puppy's jump range
-        const verticalOverlap = (bubble.y < puppyJumpBottomY && bubble.y + bubble.size > puppyJumpTopY);
-
-        if (horizontalOverlap && verticalOverlap) {
-          poppedBubbleIds.add(bubble.id);
-          return false; // This bubble is popped, so filter it out
-        }
-        return true; // Keep this bubble
-      });
-
-      // Update score for popped bubbles
-      if (poppedBubbleIds.size > 0) {
-        setScore((prevScore) => prevScore + poppedBubbleIds.size);
-      }
-
-      return remainingBubbles;
-    });
-
-  }, [isPuppyJumping, gameOver, isPaused, bubbles.length]); // Re-run when puppy jumps or bubble count changes
+  // Removed: --- Puppy Jump Collision Detection Logic ---
+  // Removed: useEffect(() => { ... }, [isPuppyJumping, gameOver, isPaused, bubbles.length]);
 
   // --- Name Submission Logic ---
   const handleNameChange = (event) => {
@@ -270,7 +218,7 @@ const App = () => {
     setUserName(''); // Clear user name
     setIsNameSubmitted(false); // Reset name submission status
     setIsPaused(false); // Reset pause state
-    setIsPuppyJumping(false); // Reset puppy jump state
+    // Removed: setIsPuppyJumping(false); // Reset puppy jump state
     setCurrentAudioSrc(''); // Clear current audio source on reset
     // Audio will be handled by useEffect when isNameSubmitted becomes false
   };
@@ -285,7 +233,7 @@ const App = () => {
       {/* Conditionally render name prompt or game */}
       {!isNameSubmitted ? (
         <div className="name-prompt" style={{ textAlign: 'center', padding: '20px', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
-          <h2 className = "mb-3">🎵 Brahms Symphony No. 3</h2>
+          <h2 className = "mb-3">For Aveer and Meher 😃</h2>
           <form onSubmit={handleSubmitName} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
             <input
               type="text"
@@ -352,7 +300,7 @@ const App = () => {
             {bubbles.map((bubble) => (
               <div
                 key={bubble.id}
-                onClick={() => handleClick(bubble.id)} // Keep onClick here to trigger puppy jump
+                onClick={() => handleClick(bubble.id)} // onClick now directly pops the bubble
                 className="bubble"
                 style={{
                   left: `${bubble.x}px`,
@@ -366,22 +314,8 @@ const App = () => {
                 }}
               />
             ))}
-            {/* Puppy image at the bottom */}
-            <img
-              src="/puppy.png"
-              alt="puppy"
-              className="puppy-at-bottom"
-              style={{
-                position: 'absolute',
-                bottom: '0',
-                left: '50%',
-                transform: `translateX(-50%) ${isPuppyJumping ? 'translateY(-100px)' : 'translateY(0)'}`, // Jump effect
-                transition: 'transform 0.15s ease-out', // Smooth transition for jump
-                width: '150px',
-                height: 'auto',
-                borderRadius: '15px'
-              }}
-            />
+            {/* Removed: Puppy image at the bottom */}
+            {/* Removed: <img src="/puppy.png" alt="puppy" className="puppy-at-bottom" style={{ ... }} /> */}
 
             {/* Paused overlay */}
             {isPaused && !gameOver && (
