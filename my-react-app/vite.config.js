@@ -3,10 +3,16 @@
 
     // https://vitejs.dev/config/
     export default defineConfig({
-      // Set the base path for your deployed application.
-      // This should be your GitHub repository name, surrounded by slashes.
-      // For example, if your repo is 'bubble-pop-game', set it to '/bubble-pop-game/'.
-      base: '/bubble-pop/', // <--- IMPORTANT: REPLACE 'YOUR_REPO_NAME' with your actual repository name
+      // IMPORTANT: Set the base path for your deployed application.
+      // This MUST be your exact GitHub repository name, surrounded by forward slashes.
+      //
+      // Example: If your GitHub repository URL is:
+      //    https://github.com/YOUR_GITHUB_USERNAME/my-bubble-pop-game
+      // Then the 'base' value should be:
+      //    base: '/my-bubble-pop-game/',
+      //
+      // Make sure the slashes are present at both the beginning and the end.
+      base: '/bubble-pop/', // <--- PLEASE REPLACE THIS WITH YOUR EXACT REPOSITORY NAME FROM GITHUB
 
       plugins: [react()],
     })
